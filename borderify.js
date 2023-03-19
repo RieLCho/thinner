@@ -1,1 +1,0 @@
-document.body.style.scrollbarWidth='thin'
