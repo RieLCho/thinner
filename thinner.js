@@ -1,40 +1,41 @@
-var ElementsWithScrolls = (function() {
-    var getComputedStyle = document.body && document.body.currentStyle ? function(elem) {
-        return elem.currentStyle;
-    } : function(elem) {
-        return document.defaultView.getComputedStyle(elem, null);
-    };
+const elementsWithScrolls = (() => {
+    const getComputedStyle = document.body && document.body.currentStyle
+      ? (elem) => elem.currentStyle
+      : (elem) => document.defaultView.getComputedStyle(elem, null);
+  
+    const getActualCss = (elem, style) => getComputedStyle(elem)[style];
+  
+    const isXScrollable = (elem) =>
+      elem.offsetWidth < elem.scrollWidth &&
+      getActualCss(elem, 'overflow-x') !== 'hidden' &&
+      autoOrScroll(getActualCss(elem, 'overflow-x'));
+  
+    const isYScrollable = (elem) =>
+      elem.offsetHeight < elem.scrollHeight &&
+      getActualCss(elem, 'overflow-x') !== 'hidden' &&
+      autoOrScroll(getActualCss(elem, 'overflow-y'));
+  
+    const autoOrScroll = (text) => text === 'scroll' || text === 'auto';
+  
+    const hasScroller = (elem) => isYScrollable(elem) || isXScrollable(elem);
+  
+    return () => [].filter.call(document.querySelectorAll('*'), hasScroller);
+  })();
+  
 
-    function getActualCss(elem, style) {
-        return getComputedStyle(elem)[style];
-    }
-
-    function isXScrollable(elem) {
-        return elem.offsetWidth < elem.scrollWidth &&
-            autoOrScroll(getActualCss(elem, 'overflow-x'));
-    }
-
-    function isYScrollable(elem) {
-        return elem.offsetHeight < elem.scrollHeight &&
-            autoOrScroll(getActualCss(elem, 'overflow-y'));
-    }
-
-    function autoOrScroll(text) {
-        return text == 'scroll' || text == 'auto';
-    }
-
-    function hasScroller(elem) {
-        return isYScrollable(elem) || isXScrollable(elem);
-    }
-    return function ElemenetsWithScrolls() {
-        return [].filter.call(document.querySelectorAll('*'), hasScroller);
-    };
-})();
-
-const el = ElementsWithScrolls();
+const el = elementsWithScrolls();
 console.log(el);
 el.map((v) => {
-    return v.style.setProperty('scrollbar-width', 'thin') ;
-})
+  const st = v.style;
+  if (
+    st.getPropertyValue("oveflow") === "hidden" ||
+    st.getPropertyValue("overflow-y") === "hidden" ||
+    st.getPropertyValue("overflow-x") === "hidden"
+  ) {
+    console.log("passed:", st);
+    return;
+  }
+  return v.style.setProperty("scrollbar-width", "thin");
+});
 
-console.log('modified:', el)
+console.log("modified:", el);
