@@ -1,31 +1,31 @@
 const elementsWithScrolls = (() => {
     const getComputedStyle = document.body && document.body.currentStyle
-      ? (elem) => elem.currentStyle
-      : (elem) => document.defaultView.getComputedStyle(elem, null);
+      ? (element) => element.currentStyle
+      : (element) => document.defaultView.getComputedStyle(element, null);
   
-    const getActualCss = (elem, style) => getComputedStyle(elem)[style];
+    const getActualCss = (element, style) => getComputedStyle(element)[style];
   
-    const isXScrollable = (elem) =>
-      elem.offsetWidth < elem.scrollWidth &&
-      getActualCss(elem, 'overflow-x') !== 'hidden' &&
-      autoOrScroll(getActualCss(elem, 'overflow-x'));
+    const isXScrollable = (element) =>
+      element.offsetWidth < element.scrollWidth &&
+      getActualCss(element, 'overflow-x') !== 'hidden' &&
+      autoOrScroll(getActualCss(element, 'overflow-x'));
   
-    const isYScrollable = (elem) =>
-      elem.offsetHeight < elem.scrollHeight &&
-      getActualCss(elem, 'overflow-x') !== 'hidden' &&
-      autoOrScroll(getActualCss(elem, 'overflow-y'));
+    const isYScrollable = (element) =>
+      element.offsetHeight < element.scrollHeight &&
+      getActualCss(element, 'overflow-x') !== 'hidden' &&
+      autoOrScroll(getActualCss(element, 'overflow-y'));
   
     const autoOrScroll = (text) => text === 'scroll' || text === 'auto';
-  
-    const hasScroller = (elem) => isYScrollable(elem) || isXScrollable(elem);
+
+    const hasScroller = (element) => isYScrollable(element) || isXScrollable(element);
   
     return () => [].filter.call(document.querySelectorAll('*'), hasScroller);
   })();
   
 
-const el = elementsWithScrolls();
-console.log(el);
-el.map((v) => {
+const elements = elementsWithScrolls();
+console.log(elements);
+elements.map((v) => {
   const st = v.style;
   if (
     st.getPropertyValue("oveflow") === "hidden" ||
@@ -38,4 +38,4 @@ el.map((v) => {
   return v.style.setProperty("scrollbar-width", "thin");
 });
 
-console.log("modified:", el);
+console.log("modified:", elements);
