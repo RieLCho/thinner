@@ -31,4 +31,10 @@ var ElementsWithScrolls = (function() {
     };
 })();
 
-console.log(ElementsWithScrolls());
+const el = ElementsWithScrolls();
+console.log(el);
+el.map((v) => {
+    return v.style.setProperty('scrollbar-width', 'thin') ;
+})
+
+console.log('modified:', el)
