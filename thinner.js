@@ -5,7 +5,6 @@ const modifyElementWithScrollbar = (element) => {
     computedStyle.getPropertyValue("overflow-y") === "hidden" ||
     computedStyle.getPropertyValue("overflow-x") === "hidden"
   ) {
-    console.log("passed:", element.style);
     return;
   }
   return element.style.setProperty("scrollbar-width", "thin");
