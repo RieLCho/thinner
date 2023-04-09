@@ -1,5 +1,5 @@
 # thinner
-<img src="/res/slogan.png">
+<img src="/res/slogan.svg">
 
 ### Goal
 - We have web standard style property **'scrollbar-width'** but every websites doesn't use it.
