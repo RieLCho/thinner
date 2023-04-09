@@ -2,13 +2,10 @@
   "manifest_version": 2,
   "name": "Thinner",
   "version": "1.0",
-
   "description": "Make every single scrollbars elegant.",
-
   "icons": {
     "48": "icons/thinner-48.png"
   },
-
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
