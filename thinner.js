@@ -12,7 +12,7 @@ const elementsWithScrolls = (() => {
   
     const isYScrollable = (element) =>
       element.offsetHeight < element.scrollHeight &&
-      getActualCss(element, 'overflow-x') !== 'hidden' &&
+      getActualCss(element, 'overflow-y') !== 'hidden' &&
       autoOrScroll(getActualCss(element, 'overflow-y'));
   
     const autoOrScroll = (text) => text === 'scroll' || text === 'auto';
