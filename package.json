@@ -1,0 +1,25 @@
+{
+  "name": "thinner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "thinner.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RieLCho/thinner.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RieLCho/thinner/issues"
+  },
+  "homepage": "https://github.com/RieLCho/thinner#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.57.1",
+    "@typescript-eslint/parser": "^5.57.1",
+    "eslint": "^8.38.0",
+    "prettier": "2.8.7"
+  }
+}
