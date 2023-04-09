@@ -1,41 +1,41 @@
-const elementsWithScrolls = (() => {
-    const getComputedStyle = document.body && document.body.currentStyle
-      ? (element) => element.currentStyle
-      : (element) => document.defaultView.getComputedStyle(element, null);
-  
-    const getActualCss = (element, style) => getComputedStyle(element)[style];
-  
-    const isXScrollable = (element) =>
-      element.offsetWidth < element.scrollWidth &&
-      getActualCss(element, 'overflow-x') !== 'hidden' &&
-      autoOrScroll(getActualCss(element, 'overflow-x'));
-  
-    const isYScrollable = (element) =>
-      element.offsetHeight < element.scrollHeight &&
-      getActualCss(element, 'overflow-y') !== 'hidden' &&
-      autoOrScroll(getActualCss(element, 'overflow-y'));
-  
-    const autoOrScroll = (text) => text === 'scroll' || text === 'auto';
-
-    const hasScroller = (element) => isYScrollable(element) || isXScrollable(element);
-  
-    return () => [].filter.call(document.querySelectorAll('*'), hasScroller);
-  })();
-  
-
-const elements = elementsWithScrolls();
-console.log(elements);
-elements.map((v) => {
-  const st = v.style;
+const modifyElementWithScrollbar = (element) => {
+  const computedStyle = window.getComputedStyle(element);
   if (
-    st.getPropertyValue("oveflow") === "hidden" ||
-    st.getPropertyValue("overflow-y") === "hidden" ||
-    st.getPropertyValue("overflow-x") === "hidden"
+    computedStyle.getPropertyValue("overflow") === "hidden" ||
+    computedStyle.getPropertyValue("overflow-y") === "hidden" ||
+    computedStyle.getPropertyValue("overflow-x") === "hidden"
   ) {
-    console.log("passed:", st);
+    console.log("passed:", element.style);
     return;
   }
-  return v.style.setProperty("scrollbar-width", "thin");
+  return element.style.setProperty("scrollbar-width", "thin");
+};
+
+// Select all elements with scrollbars that don't have overflow:hidden set
+const elements = document.querySelectorAll('*:not([style*="overflow: hidden"]):not([style*="overflow-y: hidden"]):not([style*="overflow-x: hidden"]):not([style*="scrollbar-width: thin"])');
+
+// Modify the style of the selected elements
+elements.forEach((element) => {
+  modifyElementWithScrollbar(element);
 });
 
-console.log("modified:", elements);
+// Create a mutation observer to monitor the document for changes
+const observer = new MutationObserver((mutationsList) => {
+  for (let mutation of mutationsList) {
+    if (mutation.type === 'childList' && mutation.addedNodes.length) {
+      const newElements = [];
+      mutation.addedNodes.forEach(node => {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          const nodesWithScrollbars = node.querySelectorAll('*:not([style*="overflow: hidden"]):not([style*="overflow-y: hidden"]):not([style*="overflow-x: hidden"]):not([style*="scrollbar-width: thin"])');
+          nodesWithScrollbars.forEach((element) => {
+            modifyElementWithScrollbar(element);
+            newElements.push(element);
+          });
+        }
+      });
+    }
+  }
+});
+
+// Start observing the document for changes
+observer.observe(document.body, { childList: true, subtree: true });
