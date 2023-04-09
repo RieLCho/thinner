@@ -6,7 +6,7 @@
   "description": "Make every single scrollbars elegant.",
 
   "icons": {
-    "48": "icons/border-48.png"
+    "48": "icons/thinner-48.png"
   },
 
   "content_scripts": [
