@@ -20,7 +20,7 @@ elements.forEach((element) => {
 
 // Create a mutation observer to monitor the document for changes
 const observer = new MutationObserver((mutationsList) => {
-  for (let mutation of mutationsList) {
+  for (const mutation of mutationsList) {
     if (mutation.type === 'childList' && mutation.addedNodes.length) {
       const newElements = [];
       mutation.addedNodes.forEach(node => {
